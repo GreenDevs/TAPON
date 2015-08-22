@@ -14,7 +14,9 @@
         android:layout_centerInParent="true"
         android:id="@+id/frameLayout"
         android:layout_centerHorizontal="true"
+
         android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -61,10 +63,22 @@
             android:layout_height="wrap_content"/>
 
         <com.crackdeveloperz.tapon.VerticalProgressBar
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="left"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:id="@+id/timerLeft"
+            android:layout_width="wrap_content"
+            android:progress="100"
+            android:layout_height="250dp"
+            />
+
+
+
+        <com.crackdeveloperz.tapon.VerticalProgressBar
             android:layout_marginRight="20dp"
             android:layout_gravity="right"
             style="?android:attr/progressBarStyleHorizontal"
-            android:id="@+id/timer"
+            android:id="@+id/timerRight"
             android:layout_width="wrap_content"
             android:progress="100"
             android:layout_height="250dp"

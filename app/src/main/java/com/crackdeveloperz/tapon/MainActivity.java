@@ -1,6 +1,7 @@
 package com.crackdeveloperz.tapon;
 
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
@@ -27,12 +29,14 @@ public class MainActivity extends ActionBarActivity
 {
 
     ///BHATTTE KO CODE
-    private RelativeLayout mainRl;
+    private RelativeLayout mainRl;   // whole  window
     private static final String HIGH_SCORE_TAG="score";
     private static final int FULL_VALUE=100;
     private int highscore = 0, currentScore = 0, timerCount=FULL_VALUE;
     private int backgroundColor;
     private Button left, right;
+    private  long []  timeTakenToTap = {3,3};  // the difference will give the time taken for clicking the right button , the longer you take the lesser poing you get
+    private boolean isRestartVisible = false;
     private ImageView restart;
     private TextView restartText;
     private boolean isLeftToBePressed = true;
@@ -42,7 +46,7 @@ public class MainActivity extends ActionBarActivity
     private Animation scale;
     private MediaPlayer mp;
     private CircleProgressView mCircleView;
-    private VerticalProgressBar timer;
+    private VerticalProgressBar timerLeft,timerRight;
     private SharedPreferences sharedPrefs;
     private static final int SCORE_INC_VAL=100;
     private LinearLayout scoreCard, buttonLl;
@@ -76,8 +80,10 @@ public class MainActivity extends ActionBarActivity
         mCircleView.setMaxValue(highscore);
         mCircleView.setValue(0);
 
-        timer=(VerticalProgressBar)findViewById(R.id.timer);
-        timer.setProgress(timerCount);
+        timerLeft=(VerticalProgressBar)findViewById(R.id.timerLeft);
+        timerRight=(VerticalProgressBar)findViewById(R.id.timerRight);
+        timerLeft.setProgress(timerCount);
+        timerRight.setProgress(timerCount);
 
         left = (Button) findViewById(R.id.leftButton);
         right = (Button) findViewById(R.id.rightButton);
@@ -98,85 +104,6 @@ public class MainActivity extends ActionBarActivity
         scale = new ScaleAnimation(1, 0.92f, 1, 0.92f);
         scale.setDuration(50);
     }
-
-
-        ////BHHATE KO CODE ENDS HERE
-
-        //Setup Switch
-//        mSwitchSpin = (Switch) findViewById(R.id.switch1);
-//        mSwitchSpin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-//        {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-//            {
-//                if (isChecked)
-//                {
-//                    mCircleView.spin();
-//                } else {
-//                    mCircleView.stopSpinning();
-//                }
-//            }
-//        });
-
-//        mSwitchShowUnit = (Switch) findViewById(R.id.switch2);
-//        mSwitchShowUnit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-//        {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-//            {
-//                    mCircleView.setShowUnit(isChecked);
-//            }
-//        });
-//
-//        //Setup SeekBar
-//        mSeekBar = (SeekBar) findViewById(R.id.seekBar);
-//        mSeekBar.setMax(500);
-//        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-//        {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-//            {
-//
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar)
-//            {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar)
-//            {
-//                mCircleView.setValueAnimated(seekBar.getProgress(),1000);
-//                mSwitchSpin.setChecked(false);
-//            }
-//        });
-
-//        mSeekBarSpinnerLength = (SeekBar) findViewById(R.id.seekBar2);
-//        mSeekBarSpinnerLength.setMax(360);
-//        mSeekBarSpinnerLength.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-//        {
-//
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-//            {
-//
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar)
-//            {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar)
-//            {
-//                mCircleView.setSpinningBarLength(seekBar.getProgress());
-//            }
-//        });
-
 
     @Override
     protected void onStart()
@@ -207,7 +134,8 @@ public class MainActivity extends ActionBarActivity
     public void buttonClicked(View v)
     {
         timerCount=timerCount-5;
-        timer.setProgress(timerCount);
+        timerLeft.setProgress(timerCount);
+        timerRight.setProgress(timerCount);
 
         v.startAnimation(scale);
         v.setSoundEffectsEnabled(false);
@@ -224,7 +152,8 @@ public class MainActivity extends ActionBarActivity
 
                 if (isLeftToBePressed)
                 {
-                    currentScore = currentScore + SCORE_INC_VAL;
+                    resetCounter();
+
                     Log.i("update", "left button pressed");
                     if (currentScore >= highscore)
                     {
@@ -232,7 +161,7 @@ public class MainActivity extends ActionBarActivity
                         mCircleView.setBarColor(getResources().getColor(R.color.pair2_1));
                     }
 
-                    mCircleView.setValueAnimated(currentScore, 300);
+
                     if (shouldToggle())
                     {
                         isLeftToBePressed = false;
@@ -241,16 +170,8 @@ public class MainActivity extends ActionBarActivity
                 }
                 else
                 {
-                    saveHighScore();
-                    restart.setVisibility(View.VISIBLE);
-                    restartText.setVisibility(View.VISIBLE);
-                    buttonLl.setVisibility(View.GONE);
+                   onGameFinished();
 
-                    mainRl.setBackgroundColor(getResources().getColor(R.color.pair3_3));
-
-                    ((TextView)findViewById(R.id.currentScore)).setText("CURRENT: " + currentScore);
-                    ((TextView)findViewById(R.id.highScore)).setText("HIGH   : " + highscore);
-                    scoreCard.setVisibility(View.VISIBLE);
 
                 }
 
@@ -260,10 +181,13 @@ public class MainActivity extends ActionBarActivity
 
             case R.id.rightButton: {
 
+
+
                 if (!isLeftToBePressed)
                 {
 
-                    currentScore = currentScore + SCORE_INC_VAL;
+                    resetCounter();
+
                     Log.i("button", "Restart");
                     if (currentScore >= highscore)
                     {
@@ -272,7 +196,7 @@ public class MainActivity extends ActionBarActivity
                     }
 
 
-                mCircleView.setValueAnimated(currentScore, 300);
+
 
 
                     if (shouldToggle())
@@ -281,17 +205,14 @@ public class MainActivity extends ActionBarActivity
 
                         toggle();
                     }
-                }   else
-                {
-                    saveHighScore();
-                    restart.setVisibility(View.VISIBLE);
-                    restartText.setVisibility(View.VISIBLE);
-                    buttonLl.setVisibility(View.GONE);
 
-                    mainRl.setBackgroundColor(getResources().getColor(R.color.pair3_3));
-                    ((TextView)findViewById(R.id.currentScore)).setText("CURRENT: " + currentScore);
-                    ((TextView)findViewById(R.id.highScore)).setText("HIGH   : " + highscore);
-                    scoreCard.setVisibility(View.VISIBLE);
+
+                }
+
+                else
+                {
+                    onGameFinished();
+
 
                 }
 
@@ -347,7 +268,8 @@ public class MainActivity extends ActionBarActivity
 
     public void restartgame()
     {
-         timer.setProgress(FULL_VALUE);
+         timerLeft.setProgress(FULL_VALUE);
+         timerRight.setProgress(FULL_VALUE);
          mCircleView.setMaxValue(highscore);
          currentScore=0;
          mCircleView.setValueAnimated(currentScore, 500);
@@ -356,15 +278,123 @@ public class MainActivity extends ActionBarActivity
     private void saveHighScore()
     {
         SharedPreferences.Editor editor=sharedPrefs.edit();
-        editor.putInt(HIGH_SCORE_TAG, highscore);
+
+       if (highscore >currentScore) {
+           editor.putInt(HIGH_SCORE_TAG, highscore);
+
+       }
+        else { editor.putInt(HIGH_SCORE_TAG, currentScore);}
         editor.apply();
     }
 
     public void  playMusic()
     {
-        player.setVolume(1 - log1, 1-log1);
+        player.setVolume(1 - log1, 1 - log1);
         player.start();
     }
+
+
+
+
+
+    public void resetCounter() {
+
+        timeTakenToTap[0] = timeTakenToTap[1];
+        timeTakenToTap[1] = System.currentTimeMillis();
+
+
+        currentScore = currentScore + 5+(int)(5*(1000/(timeTakenToTap[1]-timeTakenToTap[0])));
+        mCircleView.setValueAnimated(currentScore, 300);
+
+        final long currentTime = System.currentTimeMillis();
+
+
+        final ValueAnimator va = ValueAnimator.ofInt(100, 0);
+        Log.i("timer", "animation stopped");
+
+        va.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        va.setDuration(1000);
+        va.removeAllUpdateListeners();
+
+
+        va.setCurrentPlayTime(0);
+
+
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+
+
+                // textView.setText(value);
+                int progress = (int) ((System.currentTimeMillis() - currentTime) / 10);
+                timerLeft.setProgress(100 - progress);
+                timerRight.setProgress(100 - progress);
+
+
+                if (progress < 100 & !isRestartVisible) {
+                    restart.setVisibility(View.INVISIBLE);
+                    restartText.setVisibility(View.INVISIBLE);
+                    buttonLl.setVisibility(View.VISIBLE);
+                    scoreCard.setVisibility(View.INVISIBLE);
+
+
+                } else {
+                    restart.setVisibility(View.VISIBLE);
+
+
+
+
+                    saveHighScore();
+                    restart.setVisibility(View.VISIBLE);
+                    restartText.setVisibility(View.VISIBLE);
+                    buttonLl.setVisibility(View.GONE);
+
+                   // mainRl.setBackgroundColor(getResources().getColor(R.color.pair3_3));
+
+                    ((TextView)findViewById(R.id.currentScore)).setText("CURRENT  : " + currentScore);
+                    ((TextView)findViewById(R.id.highScore)).setText("HIGH SCORE : " + highscore);
+                    scoreCard.setVisibility(View.VISIBLE);
+
+                }
+
+
+            }
+
+
+        });
+
+
+        va.start();
+
+
+
+
+
+    }
+
+    public void onGameFinished() {
+
+
+
+
+        saveHighScore();
+        left.setClickable(false);
+        right.setClickable(false);
+        restart.setVisibility(View.VISIBLE);
+        restartText.setVisibility(View.VISIBLE);
+        buttonLl.setVisibility(View.GONE);
+
+        mainRl.setBackgroundColor(getResources().getColor(R.color.pair3_3));
+        ((TextView)findViewById(R.id.currentScore)).setText("CURRENT  : " + currentScore);
+        ((TextView)findViewById(R.id.highScore)).setText("HIGH  SCORE : " + highscore);
+        scoreCard.setVisibility(View.VISIBLE);
+    }
+
+
+
 
 }
 
