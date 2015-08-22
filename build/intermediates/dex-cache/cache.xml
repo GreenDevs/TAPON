@@ -2,32 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/home/trees/AndroidStudioProjects/TAPON/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/libs/internal_impl-22.0.0.jar"
+        jar="/home/trees/AndroidStudioProjects/TAPON/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/22.2.1/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
-        <dex dex="/home/trees/AndroidStudioProjects/TAPON/app/build/intermediates/pre-dexed/debug/internal_impl-22.0.0-886da4dc800991c8723e70d13333f43b4d0b2d16.jar" />
-    </item>
-    <item
-        jar="/home/trees/AndroidStudioProjects/TAPON/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
-        <dex dex="/home/trees/AndroidStudioProjects/TAPON/app/build/intermediates/pre-dexed/debug/classes-e8345b9d7e616f4c7b3e4ae8d9963a9c0d7e5d58.jar" />
-    </item>
-    <item
-        jar="/home/trees/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
-        <dex dex="/home/trees/AndroidStudioProjects/TAPON/app/build/intermediates/pre-dexed/debug/support-annotations-22.0.0-43e16090d4b599cc49b77f2251dbd02bb31333ca.jar" />
-    </item>
-    <item
-        jar="/home/trees/AndroidStudioProjects/TAPON/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
-        <dex dex="/home/trees/AndroidStudioProjects/TAPON/app/build/intermediates/pre-dexed/debug/classes-8943c889b151cf1ce993d5bc0d7753a45ff36be8.jar" />
+        sha1="e1fa5e1123997a55e3ed65b44892993ff4b58cfe">
+        <dex dex="/home/trees/AndroidStudioProjects/TAPON/app/build/intermediates/pre-dexed/debug/classes-531c6e5a4eb46f32b945152565a23e1eb5b50808.jar" />
     </item>
 
 </items>

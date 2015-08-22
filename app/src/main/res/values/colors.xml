@@ -3,4 +3,21 @@
     <color name="left_button">#f0f</color>
     <color name="right_button">#acf</color>
     <color name="primary_color">#afa</color>
+    <color name="shadow">#aaa</color>
+    <color name="game_background">#dfdfdf</color>
+
+    <!-- color sets -->
+    <color name="pair1_1">#dc3d24</color>
+    <color name="pair1_2">#232b2b</color>
+
+    <color name="pair2_1">#a23645</color>
+    <color name="pair2_2">#468a7b</color>
+
+    <color name="pair3_1">#5080a8</color>
+    <color name="pair3_2">#df6190</color>
+    <color name="pair3_3">#aac8e1</color>
+    <color name="pair3_4">#f8d7e3</color>
+
+    <color name="pair1">@color/pair3_1</color>
+    <color name="pair2">@color/pair3_2</color>
 </resources>

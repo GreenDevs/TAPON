@@ -3,6 +3,7 @@ package com.crackdeveloperz.tapon;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -14,6 +15,11 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.crackdeveloperz.tapon.utility.Utility;
 
 
@@ -21,11 +27,14 @@ public class MainActivity extends ActionBarActivity
 {
 
     ///BHATTTE KO CODE
+    private RelativeLayout mainRl;
     private static final String HIGH_SCORE_TAG="score";
     private static final int FULL_VALUE=100;
     private int highscore = 0, currentScore = 0, timerCount=FULL_VALUE;
     private int backgroundColor;
-    private Button left, right, restart;
+    private Button left, right;
+    private ImageView restart;
+    private TextView restartText;
     private boolean isLeftToBePressed = true;
     private ImageView bg;
     private float log1=(float)(Math.log(100-60)/Math.log(100));
@@ -35,6 +44,8 @@ public class MainActivity extends ActionBarActivity
     private CircleProgressView mCircleView;
     private VerticalProgressBar timer;
     private SharedPreferences sharedPrefs;
+    private static final int SCORE_INC_VAL=100;
+    private LinearLayout scoreCard, buttonLl;
 
 
      @Override
@@ -70,9 +81,19 @@ public class MainActivity extends ActionBarActivity
 
         left = (Button) findViewById(R.id.leftButton);
         right = (Button) findViewById(R.id.rightButton);
-        restart = (Button) findViewById(R.id.restart);
         bg = (ImageView) findViewById(R.id.background);
         mp = MediaPlayer.create(this, R.raw.soundforbutton);
+        restart = (ImageView) findViewById(R.id.restart);
+        restartText=(TextView)findViewById(R.id.restartText);
+        Typeface style=Typeface.createFromAsset(getAssets(), "icomoon.ttf");
+        restartText.setTypeface(style);
+        restartText.setText(getResources().getString(R.string.restart_code2));
+        restartText.setTextSize(120f);
+
+        mainRl=(RelativeLayout)findViewById(R.id.mainRl);
+        mainRl.setBackgroundColor(getResources().getColor(R.color.pair3_4));
+        scoreCard=(LinearLayout)findViewById(R.id.scoreCard);
+        buttonLl=(LinearLayout)findViewById(R.id.buttonLL);
 
         scale = new ScaleAnimation(1, 0.92f, 1, 0.92f);
         scale.setDuration(50);
@@ -203,11 +224,12 @@ public class MainActivity extends ActionBarActivity
 
                 if (isLeftToBePressed)
                 {
-                    currentScore = currentScore + 5;
+                    currentScore = currentScore + SCORE_INC_VAL;
                     Log.i("update", "left button pressed");
-                    if (currentScore > highscore)
+                    if (currentScore >= highscore)
                     {
                         highscore = currentScore;
+                        mCircleView.setBarColor(getResources().getColor(R.color.pair2_1));
                     }
 
                     mCircleView.setValueAnimated(currentScore, 300);
@@ -221,8 +243,15 @@ public class MainActivity extends ActionBarActivity
                 {
                     saveHighScore();
                     restart.setVisibility(View.VISIBLE);
-                    left.setClickable(false);
-                    right.setClickable(false);
+                    restartText.setVisibility(View.VISIBLE);
+                    buttonLl.setVisibility(View.GONE);
+
+                    mainRl.setBackgroundColor(getResources().getColor(R.color.pair3_3));
+
+                    ((TextView)findViewById(R.id.currentScore)).setText("CURRENT: " + currentScore);
+                    ((TextView)findViewById(R.id.highScore)).setText("HIGH   : " + highscore);
+                    scoreCard.setVisibility(View.VISIBLE);
+
                 }
 
                 break;
@@ -234,10 +263,11 @@ public class MainActivity extends ActionBarActivity
                 if (!isLeftToBePressed)
                 {
 
-                    currentScore = currentScore + 5;
+                    currentScore = currentScore + SCORE_INC_VAL;
                     Log.i("button", "Restart");
-                    if (currentScore > highscore)
+                    if (currentScore >= highscore)
                     {
+                        mCircleView.setBarWidth(45);
                         highscore = currentScore;
                     }
 
@@ -255,9 +285,14 @@ public class MainActivity extends ActionBarActivity
                 {
                     saveHighScore();
                     restart.setVisibility(View.VISIBLE);
+                    restartText.setVisibility(View.VISIBLE);
+                    buttonLl.setVisibility(View.GONE);
 
-                    left.setClickable(false);
-                    right.setClickable(false);
+                    mainRl.setBackgroundColor(getResources().getColor(R.color.pair3_3));
+                    ((TextView)findViewById(R.id.currentScore)).setText("CURRENT: " + currentScore);
+                    ((TextView)findViewById(R.id.highScore)).setText("HIGH   : " + highscore);
+                    scoreCard.setVisibility(View.VISIBLE);
+
                 }
 
                 break;
@@ -268,6 +303,10 @@ public class MainActivity extends ActionBarActivity
 
                 restartgame();
                 restart.setVisibility(View.GONE);
+                restartText.setVisibility(View.GONE);
+                buttonLl.setVisibility(View.VISIBLE);
+                scoreCard.setVisibility(View.GONE);
+
                 left.setClickable(true);
                 right.setClickable(true);
             }
@@ -281,12 +320,14 @@ public class MainActivity extends ActionBarActivity
         {
             backgroundColor =  getResources().getColor(R.color.right_button);
             bg.setImageResource(R.drawable.right_circle);
+            mainRl.setBackgroundColor(getResources().getColor(R.color.pair3_4));
         }
         else
         {
 
             backgroundColor =  getResources().getColor(R.color.left_button);
             bg.setImageResource(R.drawable.left_circlee);
+            mainRl.setBackgroundColor(getResources().getColor(R.color.pair3_3));
 
         }
     }

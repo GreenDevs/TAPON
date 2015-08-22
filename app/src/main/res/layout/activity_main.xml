@@ -1,14 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/mainRl"
               android:paddingTop="@dimen/activity_horizontal_margin"
               android:layout_width="match_parent"
               android:orientation="vertical"
               android:layout_height="match_parent"
+              android:background="@color/game_background"
               tools:context=".MainActivity"
                 >
     
     <FrameLayout
+        android:layout_centerInParent="true"
         android:id="@+id/frameLayout"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
@@ -19,7 +22,6 @@
             android:id="@+id/background"
             android:src="@drawable/right_circle"
             android:layout_marginTop="2dp"
-
             android:padding="35dp"
             android:layout_gravity="center_horizontal"
             android:layout_width="272dp"
@@ -32,13 +34,31 @@
             android:layout_height="wrap_content"
             android:id="@+id/circleView"
             android:layout_gravity="center_horizontal"
-
             CircleProgressView:rimWidth="25dp"
             CircleProgressView:barWidth="25dp"
             CircleProgressView:contourSize="0dp"
             CircleProgressView:unitColor="@color/primary_color"
             CircleProgressView:textColor="#ffe"
             />
+
+        <ImageView
+            android:id="@+id/restart"
+            android:visibility="gone"
+            android:onClick="buttonClicked"
+            android:src="@drawable/restart"
+            android:layout_marginTop="2dp"
+            android:padding="35dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="272dp"
+            android:layout_height="272dp"/>
+
+        <TextView
+            android:visibility="gone"
+            android:textColor="#fff"
+            android:id="@+id/restartText"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <com.crackdeveloperz.tapon.VerticalProgressBar
             android:layout_marginRight="20dp"
@@ -54,24 +74,45 @@
 
     </FrameLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:id="@+id/restart"
-        android:layout_height="wrap_content"
-        android:onClick="buttonClicked"
-        android:layout_centerInParent="true"
-        android:text="Restart"
-        android:visibility="gone"
-        android:background="#ccc"/>
+
+
+
+        <LinearLayout
+            android:background="@color/pair3_1"
+            android:visibility="gone"
+            android:gravity="center"
+            android:id="@+id/scoreCard"
+            android:padding="10dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            >
+            <TextView
+                android:textColor="#fff"
+                android:id="@+id/currentScore"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:textColor="#fff"
+                android:id="@+id/highScore"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/buttonLL"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="80dp">
 
         <Button
-            android:background="@color/left_button"
+            android:background="@color/pair1"
             android:id="@+id/rightButton"
             android:layout_width="0dp"
             android:onClick="buttonClicked"
@@ -79,7 +120,7 @@
             android:layout_weight="1"
             />
         <Button
-            android:background="@color/right_button"
+            android:background="@color/pair2"
             android:id="@+id/leftButton"
             android:layout_width="0dp"
             android:onClick="buttonClicked"

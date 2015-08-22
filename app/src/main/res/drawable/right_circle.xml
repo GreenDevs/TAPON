@@ -4,7 +4,7 @@
     android:shape="oval">
 
     <solid
-        android:color="@color/right_button"/>
+        android:color="@color/pair2"/>
 
     <size
         android:width="10dp"
