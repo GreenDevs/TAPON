@@ -1,8 +1,9 @@
 package com.crackdeveloperz.tapon;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -11,12 +12,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.Switch;
-
 import com.crackdeveloperz.tapon.utility.Utility;
 
 
@@ -24,83 +21,62 @@ public class MainActivity extends ActionBarActivity
 {
 
     ///BHATTTE KO CODE
-    private int highscore = 0, currentScore = 0;
+    private static final String HIGH_SCORE_TAG="score";
+    private static final int FULL_VALUE=100;
+    private int highscore = 0, currentScore = 0, timerCount=FULL_VALUE;
     private int backgroundColor;
     private Button left, right, restart;
     private boolean isLeftToBePressed = true;
     private ImageView bg;
-    private String idforHighscore = "high";
-    float log1=(float)(Math.log(100-50)/Math.log(100));
-    MediaPlayer player ;
-
-
-
-
-    Animation scale;
-
-    MediaPlayer mp;
-
-    //BHATTE ENDS HERE
-
+    private float log1=(float)(Math.log(100-60)/Math.log(100));
+    private MediaPlayer player ;
+    private Animation scale;
+    private MediaPlayer mp;
     private CircleProgressView mCircleView;
-    private Switch mSwitchSpin;
-    private Switch mSwitchShowUnit;
-    private SeekBar mSeekBar;
-    private SeekBar mSeekBarSpinnerLength;
+    private VerticalProgressBar timer;
+    private SharedPreferences sharedPrefs;
+
 
      @Override
     protected void onCreate(Bundle savedInstanceState)
+     {
+
+
+         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+         Utility.hideNagivation(this);
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_main);
+         if (getSupportActionBar() != null) getSupportActionBar().hide();
+         init();
+
+     }
+
+    private void init()
     {
+        sharedPrefs=getPreferences(Context.MODE_PRIVATE);
+        highscore=sharedPrefs.getInt(HIGH_SCORE_TAG, 0);
 
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Utility.hideNagivation(this);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-        {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-       player = MediaPlayer.create(MainActivity.this, R.raw.background);
+        player = MediaPlayer.create(MainActivity.this, R.raw.background);
         player.setLooping(true);
 
-        if(getSupportActionBar()!=null) getSupportActionBar().hide();
+
         mCircleView = (CircleProgressView) findViewById(R.id.circleView);
         mCircleView.setMaxValue(highscore);
-       // mCircleView.setUnit("%");
         mCircleView.setValue(0);
 
-
-        //MY ADDED CODE
-//        (findViewById(R.id.leftButton)).setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                score=score+50;
-//                mCircleView.setValueAnimated(score, 1000);
-//            }
-//        });
-
-
-
-        /// BHATTE KO CODE HERE
-
-// Animation set to join both scaling and moving
-
+        timer=(VerticalProgressBar)findViewById(R.id.timer);
+        timer.setProgress(timerCount);
 
         left = (Button) findViewById(R.id.leftButton);
         right = (Button) findViewById(R.id.rightButton);
-        restart=(Button)findViewById(R.id.restart);
-        bg=(ImageView)findViewById(R.id.background);
+        restart = (Button) findViewById(R.id.restart);
+        bg = (ImageView) findViewById(R.id.background);
         mp = MediaPlayer.create(this, R.raw.soundforbutton);
-        scale = new ScaleAnimation(1, 0.92f, 1, 0.92f);//, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-// 1 second duration
+
+        scale = new ScaleAnimation(1, 0.92f, 1, 0.92f);
         scale.setDuration(50);
-// Moving up
+    }
 
 
         ////BHHATE KO CODE ENDS HERE
@@ -181,9 +157,6 @@ public class MainActivity extends ActionBarActivity
 //        });
 
 
-    }
-
-
     @Override
     protected void onStart()
     {
@@ -197,8 +170,7 @@ public class MainActivity extends ActionBarActivity
     protected void onResume()
     {
         super.onResume();
-        //mBackgroundSound.execute();
-       playMusic();
+        playMusic();
         Utility.hideNagivation(this);
     }
 
@@ -206,20 +178,15 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onPause()
     {
-
-        //mBackgroundSound.execute();
       player.pause();
-
-        super.onPause();
+      super.onPause();
     }
 
 
-
-
-
-    ///BHATTE KO ADDED
     public void buttonClicked(View v)
     {
+        timerCount=timerCount-5;
+        timer.setProgress(timerCount);
 
         v.startAnimation(scale);
         v.setSoundEffectsEnabled(false);
@@ -252,6 +219,7 @@ public class MainActivity extends ActionBarActivity
                 }
                 else
                 {
+                    saveHighScore();
                     restart.setVisibility(View.VISIBLE);
                     left.setClickable(false);
                     right.setClickable(false);
@@ -263,7 +231,8 @@ public class MainActivity extends ActionBarActivity
 
             case R.id.rightButton: {
 
-                if (!isLeftToBePressed) {
+                if (!isLeftToBePressed)
+                {
 
                     currentScore = currentScore + 5;
                     Log.i("button", "Restart");
@@ -276,12 +245,15 @@ public class MainActivity extends ActionBarActivity
                 mCircleView.setValueAnimated(currentScore, 300);
 
 
-                    if (shouldToggle()) {
+                    if (shouldToggle())
+                    {
                         isLeftToBePressed = true;
 
                         toggle();
                     }
-                } else {
+                }   else
+                {
+                    saveHighScore();
                     restart.setVisibility(View.VISIBLE);
 
                     left.setClickable(false);
@@ -319,49 +291,39 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    public boolean shouldToggle() {
-
-        boolean should = true;
-
+    public boolean shouldToggle()
+    {
         int a = (int) (Math.random() * 20);
-
-        if (a > 10) {
-            should = true;
-        } else should = false;
-        return should;
+        return a>10;
     }
 
-
-
-
     @Override
-    public void onBackPressed() {
-
-
+    public void onBackPressed()
+    {
         player.pause();
         super.onBackPressed();
     }
 
     public void restartgame()
     {
+         timer.setProgress(FULL_VALUE);
          mCircleView.setMaxValue(highscore);
          currentScore=0;
          mCircleView.setValueAnimated(currentScore, 500);
     }
 
+    private void saveHighScore()
+    {
+        SharedPreferences.Editor editor=sharedPrefs.edit();
+        editor.putInt(HIGH_SCORE_TAG, highscore);
+        editor.apply();
+    }
 
-
-
-
-
-  public void  playMusic() {
-
-
+    public void  playMusic()
+    {
         player.setVolume(1 - log1, 1-log1);
         player.start();
-
-
     }
-    ///BHATTE KO ENDS HERE
+
 }
 

@@ -19,6 +19,7 @@
             android:id="@+id/background"
             android:src="@drawable/right_circle"
             android:layout_marginTop="2dp"
+
             android:padding="35dp"
             android:layout_gravity="center_horizontal"
             android:layout_width="272dp"
@@ -31,6 +32,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/circleView"
             android:layout_gravity="center_horizontal"
+
             CircleProgressView:rimWidth="25dp"
             CircleProgressView:barWidth="25dp"
             CircleProgressView:contourSize="0dp"
@@ -38,23 +40,19 @@
             CircleProgressView:textColor="#ffe"
             />
 
+        <com.crackdeveloperz.tapon.VerticalProgressBar
+            android:layout_marginRight="20dp"
+            android:layout_gravity="right"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
+            android:progress="100"
+            android:layout_height="250dp"
+            />
+
 
 
     </FrameLayout>
-
-
-
-
-
-
-    <SeekBar
-        android:layout_below="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        />
 
     <Button
         android:layout_width="wrap_content"
@@ -90,57 +88,5 @@
             />
 
     </LinearLayout>
-
-
-   <!--
-
-   <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Value"
-        android:id="@+id/textView"/>
-
-
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Spinning Bar Length"
-        android:id="@+id/textView2"
-        android:layout_marginTop="34dp"/> -->
-
- <!--   <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar2"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/> -->
-
-    <!--<LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="8dp">
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Spin"
-            android:id="@+id/switch1"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginRight="10dp"/>
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Show Unit"
-            android:id="@+id/switch2"
-            android:layout_marginLeft="10dp"/>
-    </LinearLayout>  -->
-
-
-
 
 </RelativeLayout>
