@@ -90,32 +90,7 @@
 
 
 
-        <LinearLayout
-            android:background="@color/pair3_1"
-            android:visibility="gone"
-            android:gravity="center"
-            android:id="@+id/scoreCard"
-            android:padding="10dp"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="230dp"
-            >
-            <TextView
-                android:textColor="#fff"
-                android:id="@+id/currentScore"
-                android:textSize="30sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-            <TextView
-                android:textColor="#fff"
-                android:id="@+id/highScore"
-                android:textSize="30sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-        </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/buttonLL"
@@ -141,6 +116,33 @@
             android:layout_weight="1"
             />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@color/pair3_1"
+        android:visibility="gone"
+        android:gravity="center"
+        android:id="@+id/scoreCard"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        >
+        <TextView
+            android:textColor="#fff"
+            android:id="@+id/currentScore"
+            android:textSize="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:textColor="#fff"
+            android:id="@+id/highScore"
+            android:textSize="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
 
 </RelativeLayout>

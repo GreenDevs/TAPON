@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -49,6 +50,7 @@ public class MainActivity extends ActionBarActivity
     private SharedPreferences sharedPrefs;
     private static final int SCORE_INC_VAL=5;
     private LinearLayout scoreCard, buttonLl;
+    private Animation scoreCardAnimation ;
 
 
      @Override
@@ -68,6 +70,8 @@ public class MainActivity extends ActionBarActivity
 
     private void init()
     {
+        scoreCardAnimation= AnimationUtils.loadAnimation(this, R.anim.score_card_arrival);
+
         sharedPrefs=getPreferences(Context.MODE_PRIVATE);
         highscore=sharedPrefs.getInt(HIGH_SCORE_TAG, 0);
 
@@ -221,6 +225,7 @@ public class MainActivity extends ActionBarActivity
             case R.id.restart:
             {
 
+                playMusic();
                 restartgame();
                 restart.setVisibility(View.GONE);
                 restartText.setVisibility(View.GONE);
@@ -267,6 +272,7 @@ public class MainActivity extends ActionBarActivity
 
     public void restartgame()
     {
+
          timerLeft.setProgress(FULL_PROGRESS_VALUE);
          timerRight.setProgress(FULL_PROGRESS_VALUE);
          mCircleView.setMaxValue(highscore);
@@ -338,6 +344,7 @@ public class MainActivity extends ActionBarActivity
                     restartText.setVisibility(View.INVISIBLE);
                     buttonLl.setVisibility(View.VISIBLE);
                     scoreCard.setVisibility(View.INVISIBLE);
+                    player.start();
 
 
                 } else {
@@ -352,6 +359,7 @@ public class MainActivity extends ActionBarActivity
                     ((TextView)findViewById(R.id.currentScore)).setText("CURRENT  : " + currentScore);
                     ((TextView)findViewById(R.id.highScore)).setText("HIGH SCORE : " + highscore);
                     scoreCard.setVisibility(View.VISIBLE);
+                    player.pause();
 
                 }
 
@@ -386,6 +394,10 @@ public class MainActivity extends ActionBarActivity
         ((TextView)findViewById(R.id.currentScore)).setText("CURRENT  : " + currentScore);
         ((TextView)findViewById(R.id.highScore)).setText("HIGH  SCORE : " + highscore);
         scoreCard.setVisibility(View.VISIBLE);
+        scoreCard.startAnimation(scoreCardAnimation);
+        player.pause();
+
+
     }
 
 
