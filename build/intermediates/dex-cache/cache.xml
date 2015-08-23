@@ -2,39 +2,39 @@
 <items version="2" >
 
     <item
-        jar="/media/adventure/LocalDisk/android/Projects/newCrack/tapon/tap-on/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/22.2.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="e1fa5e1123997a55e3ed65b44892993ff4b58cfe">
-        <dex dex="/media/adventure/LocalDisk/android/Projects/newCrack/tapon/tap-on/app/build/intermediates/pre-dexed/release/classes-64a6eb6f53d8a832424bad02d9a226aebd885187.jar" />
-    </item>
-    <item
-        jar="/media/adventure/LocalDisk/android/Projects/newCrack/tapon/tap-on/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
-        <dex dex="/media/adventure/LocalDisk/android/Projects/newCrack/tapon/tap-on/app/build/intermediates/pre-dexed/release/classes-88f1a7df694449ade0c8e91ae1f5e256e137bc23.jar" />
-    </item>
-    <item
-        jar="/home/adventure/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
-        <dex dex="/media/adventure/LocalDisk/android/Projects/newCrack/tapon/tap-on/app/build/intermediates/pre-dexed/release/support-annotations-22.0.0-5a9a72494851c2fec70f085fb302c89ea70c5794.jar" />
-    </item>
-    <item
-        jar="/media/adventure/LocalDisk/android/Projects/newCrack/tapon/tap-on/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/libs/internal_impl-22.0.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
-        <dex dex="/media/adventure/LocalDisk/android/Projects/newCrack/tapon/tap-on/app/build/intermediates/pre-dexed/release/internal_impl-22.0.0-d5f6912035f67d7b99063d6667d09b040165ca07.jar" />
-    </item>
-    <item
-        jar="/media/adventure/LocalDisk/android/Projects/newCrack/tapon/tap-on/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/jars/classes.jar"
+        jar="/home/trees/AndroidStudioProjects/tap-on/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="d84409890828e07d344a3b9b1da545dba9897b51">
-        <dex dex="/media/adventure/LocalDisk/android/Projects/newCrack/tapon/tap-on/app/build/intermediates/pre-dexed/release/classes-1f1816da9ab6eb0171f69b20f147146007fecff6.jar" />
+        <dex dex="/home/trees/AndroidStudioProjects/tap-on/app/build/intermediates/pre-dexed/debug/classes-13dd9a8f94047cf60be9b4e066cfa0a986e78c32.jar" />
+    </item>
+    <item
+        jar="/home/trees/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="/home/trees/AndroidStudioProjects/tap-on/app/build/intermediates/pre-dexed/debug/support-annotations-22.0.0-43e16090d4b599cc49b77f2251dbd02bb31333ca.jar" />
+    </item>
+    <item
+        jar="/home/trees/AndroidStudioProjects/tap-on/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/libs/internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="/home/trees/AndroidStudioProjects/tap-on/app/build/intermediates/pre-dexed/debug/internal_impl-22.0.0-139607f1cbe6e652fcb4dc490a811679da0f86ba.jar" />
+    </item>
+    <item
+        jar="/home/trees/AndroidStudioProjects/tap-on/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="/home/trees/AndroidStudioProjects/tap-on/app/build/intermediates/pre-dexed/debug/classes-d668770c6c70c0beeedaba7e6524285a36b010ba.jar" />
+    </item>
+    <item
+        jar="/home/trees/AndroidStudioProjects/tap-on/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/22.2.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e1fa5e1123997a55e3ed65b44892993ff4b58cfe">
+        <dex dex="/home/trees/AndroidStudioProjects/tap-on/app/build/intermediates/pre-dexed/debug/classes-c5ef1b9d47808af2203f1ff371d5944edd48c767.jar" />
     </item>
 
 </items>

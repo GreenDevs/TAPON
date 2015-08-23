@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="left_button">#f0f</color>
-    <color name="right_button">#acf</color>
+    <color name="left_button">@color/pair3_1</color>
+    <color name="right_button">@color/pair3_2</color>
     <color name="primary_color">#afa</color>
     <color name="shadow">#aaa</color>
     <color name="game_background">#dfdfdf</color>

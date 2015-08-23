@@ -4,6 +4,7 @@ package com.crackdeveloperz.tapon;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -20,19 +21,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.crackdeveloperz.tapon.utility.Utility;
 
 
 public class MainActivity extends ActionBarActivity
 {
 
-    ///BHATTTE KO CODE
+    private int GAME_BG_BLUE, GAME_BG_PINK, BUTN_BG_BLUE, BUTN_BG_PINK;
     private RelativeLayout mainRl;   // whole  window
     private static final String HIGH_SCORE_TAG="score";
-    private static final int FULL_VALUE=100;
-    private int highscore = 0, currentScore = 0, timerCount=FULL_VALUE;
+    private static final int FULL_PROGRESS_VALUE=100;
+    private int highscore = 0, currentScore = 0;
     private int backgroundColor;
     private Button left, right;
     private  long []  timeTakenToTap = {3,3};  // the difference will give the time taken for clicking the right button , the longer you take the lesser poing you get
@@ -48,7 +47,7 @@ public class MainActivity extends ActionBarActivity
     private CircleProgressView mCircleView;
     private VerticalProgressBar timerLeft,timerRight;
     private SharedPreferences sharedPrefs;
-    private static final int SCORE_INC_VAL=100;
+    private static final int SCORE_INC_VAL=5;
     private LinearLayout scoreCard, buttonLl;
 
 
@@ -72,6 +71,11 @@ public class MainActivity extends ActionBarActivity
         sharedPrefs=getPreferences(Context.MODE_PRIVATE);
         highscore=sharedPrefs.getInt(HIGH_SCORE_TAG, 0);
 
+        GAME_BG_BLUE=getResources().getColor(R.color.pair3_3);
+        GAME_BG_PINK=getResources().getColor(R.color.pair3_4);
+        BUTN_BG_BLUE=getResources().getColor(R.color.left_button);
+        BUTN_BG_PINK=getResources().getColor(R.color.right_button);
+
         player = MediaPlayer.create(MainActivity.this, R.raw.background);
         player.setLooping(true);
 
@@ -82,8 +86,8 @@ public class MainActivity extends ActionBarActivity
 
         timerLeft=(VerticalProgressBar)findViewById(R.id.timerLeft);
         timerRight=(VerticalProgressBar)findViewById(R.id.timerRight);
-        timerLeft.setProgress(timerCount);
-        timerRight.setProgress(timerCount);
+        timerLeft.setProgress(FULL_PROGRESS_VALUE);
+        timerRight.setProgress(FULL_PROGRESS_VALUE);
 
         left = (Button) findViewById(R.id.leftButton);
         right = (Button) findViewById(R.id.rightButton);
@@ -133,9 +137,6 @@ public class MainActivity extends ActionBarActivity
 
     public void buttonClicked(View v)
     {
-        timerCount=timerCount-5;
-        timerLeft.setProgress(timerCount);
-        timerRight.setProgress(timerCount);
 
         v.startAnimation(scale);
         v.setSoundEffectsEnabled(false);
@@ -157,8 +158,9 @@ public class MainActivity extends ActionBarActivity
                     Log.i("update", "left button pressed");
                     if (currentScore >= highscore)
                     {
+                        mCircleView.setBarWidth(150);
                         highscore = currentScore;
-                        mCircleView.setBarColor(getResources().getColor(R.color.pair2_1));
+
                     }
 
 
@@ -191,7 +193,6 @@ public class MainActivity extends ActionBarActivity
                     Log.i("button", "Restart");
                     if (currentScore >= highscore)
                     {
-                        mCircleView.setBarWidth(45);
                         highscore = currentScore;
                     }
 
@@ -212,8 +213,6 @@ public class MainActivity extends ActionBarActivity
                 else
                 {
                     onGameFinished();
-
-
                 }
 
                 break;
@@ -237,18 +236,18 @@ public class MainActivity extends ActionBarActivity
     public void toggle()
     {
 
-        if (backgroundColor == getResources().getColor(R.color.left_button))
+        if (backgroundColor == BUTN_BG_BLUE)
         {
-            backgroundColor =  getResources().getColor(R.color.right_button);
+            backgroundColor = BUTN_BG_PINK;
             bg.setImageResource(R.drawable.right_circle);
-            mainRl.setBackgroundColor(getResources().getColor(R.color.pair3_4));
+            mainRl.setBackgroundColor(GAME_BG_PINK);
         }
         else
         {
 
-            backgroundColor =  getResources().getColor(R.color.left_button);
+            backgroundColor =  BUTN_BG_BLUE;
             bg.setImageResource(R.drawable.left_circlee);
-            mainRl.setBackgroundColor(getResources().getColor(R.color.pair3_3));
+            mainRl.setBackgroundColor(GAME_BG_BLUE);
 
         }
     }
@@ -268,8 +267,8 @@ public class MainActivity extends ActionBarActivity
 
     public void restartgame()
     {
-         timerLeft.setProgress(FULL_VALUE);
-         timerRight.setProgress(FULL_VALUE);
+         timerLeft.setProgress(FULL_PROGRESS_VALUE);
+         timerRight.setProgress(FULL_PROGRESS_VALUE);
          mCircleView.setMaxValue(highscore);
          currentScore=0;
          mCircleView.setValueAnimated(currentScore, 500);
@@ -297,13 +296,14 @@ public class MainActivity extends ActionBarActivity
 
 
 
-    public void resetCounter() {
+    public void resetCounter()
+    {
 
         timeTakenToTap[0] = timeTakenToTap[1];
         timeTakenToTap[1] = System.currentTimeMillis();
 
 
-        currentScore = currentScore + 5+(int)(5*(1000/(timeTakenToTap[1]-timeTakenToTap[0])));
+        currentScore = currentScore + SCORE_INC_VAL+(int)(SCORE_INC_VAL*(1000/(timeTakenToTap[1]-timeTakenToTap[0])));
         mCircleView.setValueAnimated(currentScore, 300);
 
         final long currentTime = System.currentTimeMillis();
@@ -321,20 +321,19 @@ public class MainActivity extends ActionBarActivity
         va.setCurrentPlayTime(0);
 
 
-        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+        {
 
 
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
+            public void onAnimationUpdate(ValueAnimator animation)
+            {
 
-
-                // textView.setText(value);
                 int progress = (int) ((System.currentTimeMillis() - currentTime) / 10);
-                timerLeft.setProgress(100 - progress);
-                timerRight.setProgress(100 - progress);
+                timerLeft.setProgress(FULL_PROGRESS_VALUE - progress);
+                timerRight.setProgress(FULL_PROGRESS_VALUE - progress);
 
 
-                if (progress < 100 & !isRestartVisible) {
+                if (progress < FULL_PROGRESS_VALUE & !isRestartVisible) {
                     restart.setVisibility(View.INVISIBLE);
                     restartText.setVisibility(View.INVISIBLE);
                     buttonLl.setVisibility(View.VISIBLE);
@@ -343,10 +342,6 @@ public class MainActivity extends ActionBarActivity
 
                 } else {
                     restart.setVisibility(View.VISIBLE);
-
-
-
-
                     saveHighScore();
                     restart.setVisibility(View.VISIBLE);
                     restartText.setVisibility(View.VISIBLE);
@@ -387,7 +382,7 @@ public class MainActivity extends ActionBarActivity
         restartText.setVisibility(View.VISIBLE);
         buttonLl.setVisibility(View.GONE);
 
-        mainRl.setBackgroundColor(getResources().getColor(R.color.pair3_3));
+        mainRl.setBackgroundColor(GAME_BG_BLUE);
         ((TextView)findViewById(R.id.currentScore)).setText("CURRENT  : " + currentScore);
         ((TextView)findViewById(R.id.highScore)).setText("HIGH  SCORE : " + highscore);
         scoreCard.setVisibility(View.VISIBLE);
